@@ -10,7 +10,7 @@ class App extends Component {
     this.state = {
       stations: [],
       selectOptions : [],
-      id: "",
+      id: 1,
       name: ''
     }
   }
@@ -33,21 +33,25 @@ class App extends Component {
 
   handleChange(e){
    this.setState({id:e.value, name:e.label})
+   this.getStations(e.value);
   }
 
   async componentDidMount(){
       this.getOptions();
-      const stations = await this.getStations();
-      this.setState({stations});
+      const stations = await this.getStations(1);
+      
   }
 
 
 // Accession the API with the weather observations
 
-  async getStations() {
-    const id = 1
+  async getStations(id) {
+    // const id = 
+  
     const res = await fetch(`http://apis.is/weather/observations/en?stations=${id}`);
     const data = await res.json();
+    const stations = data.results
+    this.setState({stations});
     return data.results;
   }
   
